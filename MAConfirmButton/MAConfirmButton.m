@@ -252,6 +252,13 @@
   [self toggle];	
 }
 
+- (void)enableWithTitle: (NSString *)aTitle confirm: (NSString*)aConfirm {
+    self.title = aTitle;
+    self.confirm = aConfirm;
+    self.disabled = nil;
+    [self toggle];
+}
+
 - (void)setAnchor:(CGPoint)anchor{
   //Top-right point of the view (MUST BE SET LAST)
   CGRect rect = self.frame;
@@ -317,7 +324,10 @@
     [cancelOverlay removeFromSuperview];
     cancelOverlay = nil;	
   }	
-  self.selected = NO;
+    
+    if (selected) {
+        self.selected = NO;
+    }
 }
 
 @end

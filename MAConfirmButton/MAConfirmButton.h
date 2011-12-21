@@ -18,7 +18,7 @@ typedef enum {
 @interface MAConfirmButton : UIButton {
 
 @private
-	BOOL selected;
+    BOOL selected;
 	BOOL confirmed;
 	CALayer *colorLayer;
 	CALayer *darkenLayer;
@@ -32,7 +32,8 @@ typedef enum {
 - (id)initWithTitle:(NSString *)titleString confirm:(NSString *)confirmString;
 - (id)initWithDisabledTitle:(NSString *)disabledString;
 - (void)disableWithTitle:(NSString *)disabledString;
+- (void)enableWithTitle: (NSString *)aTitle confirm: (NSString*)aConfirm;
 - (void)setAnchor:(CGPoint)anchor;
 - (void)setTintColor:(UIColor *)color;
-
+- (void)cancel;
 @end
