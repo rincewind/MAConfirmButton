@@ -65,14 +65,16 @@
     self.frame = r;
     
     [self setTitle:disabled forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor colorWithWhite:0.6 alpha:1] forState:UIControlStateNormal];
-    [self setTitleShadowColor:[UIColor colorWithWhite:1 alpha:1] forState:UIControlStateNormal];		
+      //[self setTitleShadowColor:[UIColor colorWithWhite:1 alpha:1] forState:UIControlStateNormal];
     
     self.titleLabel.textAlignment = UITextAlignmentCenter;
-    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
+      //self.titleLabel.shadowOffset = CGSizeMake(0, 1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
-    self.tint = [UIColor colorWithWhite:0.85 alpha:1];	
+      self.tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
+      
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
     
     [self setupLayers];
   }	
@@ -97,14 +99,14 @@
     self.frame = r;
     
     [self setTitle:title forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];		
-    [self setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.5] forState:UIControlStateNormal];
+      //[self setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.5] forState:UIControlStateNormal];
     
     self.titleLabel.textAlignment = UITextAlignmentCenter;
-    self.titleLabel.shadowOffset = CGSizeMake(0, -1);
+      //self.titleLabel.shadowOffset = CGSizeMake(0, -1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
     self.tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
+      [self setTitleColor:self.tint forState:UIControlStateNormal];
     
     [self setupLayers];
   }	
@@ -114,21 +116,26 @@
 - (void)toggle{
   
   self.titleLabel.alpha = 0;
-  
+    UIColor *greenColor = [UIColor colorWithRed:0.439 green:0.741 blue:0.314 alpha:1.];
+
   CGSize size;
   
   if(disabled){
     [self setTitle:disabled forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor colorWithWhite:0.6 alpha:1] forState:UIControlStateNormal];
-    [self setTitleShadowColor:[UIColor colorWithWhite:1 alpha:1] forState:UIControlStateNormal];
-    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+      
+      //[self setTitleShadowColor:[UIColor colorWithWhite:1 alpha:1] forState:UIControlStateNormal];
+      //self.titleLabel.shadowOffset = CGSizeMake(0, 1);
     size = [disabled sizeWithFont:[UIFont boldSystemFontOfSize:kFontSize]];
   }else if(selected){
     [self setTitle:confirm forState:UIControlStateNormal];		
     size = [confirm sizeWithFont:[UIFont boldSystemFontOfSize:kFontSize]];
+      [self setTitleColor:greenColor forState:UIControlStateNormal];
+      
   }else{
     [self setTitle:title forState:UIControlStateNormal];
     size = [title sizeWithFont:[UIFont boldSystemFontOfSize:kFontSize]];
+    [self setTitleColor:self.tint forState:UIControlStateNormal];
   }
   
   size.width += kPadding;
@@ -173,16 +180,15 @@
     [self setNeedsLayout];
   }];
   
-  UIColor *greenColor = [UIColor colorWithRed:0.439 green:0.741 blue:0.314 alpha:1.];
   
   //Animate color change
-  CABasicAnimation *colorAnimation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+  CABasicAnimation *colorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
   colorAnimation.removedOnCompletion = NO;
   colorAnimation.fillMode = kCAFillModeForwards;
   
   if(disabled){
     colorAnimation.fromValue = (id)greenColor.CGColor;
-    colorAnimation.toValue = (id)[UIColor colorWithWhite:0.85 alpha:1].CGColor;
+    colorAnimation.toValue = (id)[UIColor grayColor].CGColor;
   }else{
     colorAnimation.fromValue = selected ? (id)tint.CGColor : (id)greenColor.CGColor;
     colorAnimation.toValue = selected ? (id)greenColor.CGColor : (id)tint.CGColor;	
@@ -214,30 +220,30 @@
 
 - (void)setupLayers{
   
-  CAGradientLayer *bevelLayer = [CAGradientLayer layer];
-  bevelLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));		
-  bevelLayer.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.5].CGColor, [UIColor whiteColor].CGColor, nil];
-  bevelLayer.cornerRadius = 4.0;
-  bevelLayer.needsDisplayOnBoundsChange = YES;
+    //CAGradientLayer *bevelLayer = [CAGradientLayer layer];
+    //bevelLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    //bevelLayer.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.5].CGColor, [UIColor whiteColor].CGColor, nil];
+    // bevelLayer.cornerRadius = 4.0;
+    //bevelLayer.needsDisplayOnBoundsChange = YES;
   
   colorLayer = [CALayer layer];
   colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);		
-  colorLayer.borderColor = [UIColor colorWithWhite:0 alpha:0.1].CGColor;
-  colorLayer.backgroundColor = tint.CGColor;
+  colorLayer.borderColor = tint.CGColor;
+  colorLayer.backgroundColor =[UIColor clearColor].CGColor;
   colorLayer.borderWidth = 1.0;	
   colorLayer.cornerRadius = 4.0;
   colorLayer.needsDisplayOnBoundsChange = YES;		
   
-  CAGradientLayer *colorGradient = [CAGradientLayer layer];
-  colorGradient.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);		
-  colorGradient.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:1 alpha:0.1].CGColor, [UIColor colorWithWhite:0.2 alpha:0.1].CGColor , nil];		
-  colorGradient.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0], [NSNumber numberWithFloat:1.0], nil];		
-  colorGradient.cornerRadius = 4.0;
-  colorGradient.needsDisplayOnBoundsChange = YES;	
+    //CAGradientLayer *colorGradient = [CAGradientLayer layer];
+    //colorGradient.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
+    //colorGradient.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:1 alpha:0.1].CGColor, [UIColor colorWithWhite:0.2 alpha:0.1].CGColor , nil];
+    //colorGradient.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0], [NSNumber numberWithFloat:1.0], nil];
+    //colorGradient.cornerRadius = 4.0;
+    //colorGradient.needsDisplayOnBoundsChange = YES;
   
-  [self.layer addSublayer:bevelLayer];
+    //[self.layer addSublayer:bevelLayer];
   [self.layer addSublayer:colorLayer];
-  [self.layer addSublayer:colorGradient];
+    //[self.layer addSublayer:colorGradient];
   [self bringSubviewToFront:self.titleLabel];
   
 }
@@ -268,7 +274,7 @@
 
 - (void)setTintColor:(UIColor *)color{
   self.tint = [UIColor colorWithHue:color.hue saturation:color.saturation+0.15 brightness:color.brightness alpha:1];
-  colorLayer.backgroundColor = tint.CGColor;
+  colorLayer.borderColor = tint.CGColor;
   [self setNeedsDisplay];
 }
 
