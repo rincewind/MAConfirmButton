@@ -11,6 +11,7 @@
 #define kHeight 26.0
 #define kPadding 20.0
 #define kFontSize 14.0
+#define kDefaultBlueTint [UIColor colorWithRed: 0.0 green: 0.45490 blue: 1.0 alpha: 1.0]
 
 @interface MAConfirmButton ()
 
@@ -71,8 +72,7 @@
       //self.titleLabel.shadowOffset = CGSizeMake(0, 1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
-      self.tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
-      
+      self.tint = kDefaultBlueTint;
     [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 
     
@@ -105,7 +105,7 @@
       //self.titleLabel.shadowOffset = CGSizeMake(0, -1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
-    self.tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
+      self.tint = kDefaultBlueTint;
       [self setTitleColor:self.tint forState:UIControlStateNormal];
     
     [self setupLayers];
